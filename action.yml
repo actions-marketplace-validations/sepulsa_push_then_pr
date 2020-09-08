@@ -1,4 +1,4 @@
-name: 'Push and PR to other repository'
+name: 'Push then PR'
 description: 'If you need to centralize something to one repository, you can use this action'
 runs:
   using: 'composite'

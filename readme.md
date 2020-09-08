@@ -1,4 +1,4 @@
-# Push and PR to Other Repo
+# Push Then PR to Other Repo
 
 Sample github action workflow file. 
 
@@ -22,24 +22,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Push to other repository
-        uses: tegarimansyah/push_and_pr@master
+      - name: Push then create PR
+        uses: sepulsa/push_then_pr@master
         env:
             API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
 
-            DEST_GITHUB_USERNAME: 'tegarimansyah'
-            DEST_REPO_NAME: 'destination_repo'
+            DEST_GITHUB_USERNAME: 'sepulsa'
+            DEST_REPO_NAME: 'knowledgebase'
             USER_EMAIL: 'test@example.com'
-            PUSH_TO_BRANCH: 'from_jupyter'
+            PUSH_TO_BRANCH: 'docs'
             PR_TO_BRANCH: 'master'
             # You can add multiple source file or folder separate by space
             SRC_DIR: 'docs readme.adoc' 
-            DEST_DIR: 'jupyter'
-            PREFIX_DEST_FOLDER: 'planet/'
+            # You can create nested folder
+            DEST_DIR: 'initiative/system_name'
             # You can rename with format source(comma)target
+            # Multiple line if you want to move multiple file / folder
             RENAME: >-
-                    readme.adoc,jupyter.adoc
-                    docs,jupyter
+                    readme.adoc,docs.adoc
+                    docs,docs
+            # Add your custom Pull Request message
+            PR_MESSAGE: 'New release from system_name at $(date)'
 ```
 
 * Create a release and see your action!
@@ -48,8 +51,3 @@ jobs:
 
 * Source repo: https://github.com/tegarimansyah/Jupyter
 * Destination repo: https://github.com/tegarimansyah/destination_repo
-
-## To Do
-
-* More flexible copy command 
-* Enable other script to run before push and PR
