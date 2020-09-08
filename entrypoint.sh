@@ -1,6 +1,12 @@
 #!/bin/bash
 
 # Variable
+if [ -z "$API_TOKEN_GITHUB" ]; # check if commit msg is empty
+then
+  echo "Secret API_TOKEN_GITHUB not found in this repo. Please add it first"
+  exit 1
+fi 
+
 echo "\nList of your variable:"
 echo "DEST_GITHUB_USERNAME: $DEST_GITHUB_USERNAME"
 echo "DEST_REPO_NAME: $DEST_REPO_NAME"
@@ -16,7 +22,7 @@ echo "CLONE_DIR: $CLONE_DIR"
 echo "CUR_DIR: $CUR_DIR"
 echo "SRC_DIR: $SRC_DIR"
 echo "DEST_DIR: $DEST_DIR"
-echo "PREFIX_DEST_FOLDER: $PREFIX_DEST_FOLDER"
+echo "PR_MESSAGE: $PR_MESSAGE"
 
 echo "===================\n\n"
 
@@ -40,10 +46,10 @@ cd $CLONE_DIR && git pull origin $PR_TO_BRANCH
 cd $CUR_DIR
 
 # Flexible copy mechanism
-echo "Copying from $SRC_DIR to $CLONE_DIR/$PREFIX_DEST_FOLDER$DEST_DIR"
-mkdir -p "$CLONE_DIR/$PREFIX_DEST_FOLDER$DEST_DIR"
-if ! cp -R $SRC_DIR "$CLONE_DIR/$PREFIX_DEST_FOLDER$DEST_DIR" ; then
-    echo "Error copying $SRC_DIR to $CLONE_DIR/$PREFIX_DEST_FOLDER$DEST_DIR"
+echo "Copying from $SRC_DIR to $CLONE_DIR/$DEST_DIR"
+mkdir -p "$CLONE_DIR/$DEST_DIR"
+if ! cp -R $SRC_DIR "$CLONE_DIR/$DEST_DIR" ; then
+    echo "Error copying $SRC_DIR to $CLONE_DIR/$DEST_DIR"
     rm -Rf "$CLONE_DIR"
     exit 1
 fi
@@ -74,7 +80,7 @@ if ! curl --location -s --request POST "https://api.github.com/repos/$DEST_GITHU
 --header 'Accept: application/vnd.github.v3+json' \
 --header 'Content-Type: application/json' \
 --data-raw "{
-    \"title\": \"New release from $DEST_DIR at $(date)\",
+    \"title\": \"$PR_MESSAGE\",
     \"head\": \"$PUSH_TO_BRANCH\",
     \"base\": \"$PR_TO_BRANCH\"
 }" ; then
