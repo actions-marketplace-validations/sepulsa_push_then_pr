@@ -9,7 +9,7 @@ If you need to centralize something to one repository, you can use this action.
 * In source repo, put `push_and_pr.yml` in `.github/workflow` with this code:
 
 ```yaml
-# This CI should run after publish a new release
+# This CI will run after publish a new release
 
 name: Push to Other Repo and Make a PR
 
