@@ -1,6 +1,6 @@
 # Push Then PR to Other Repo
 
-Sample github action workflow file. 
+If you need to centralize something to one repository, you can use this action. 
 
 ## Implement
 
