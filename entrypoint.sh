@@ -63,8 +63,8 @@ then
     for i in ${!RENAME[@]};
     do
         read source target <<< "${RENAME[$i]}"
-        echo "rename $CLONE_DIR/$source to $CLONE_DIR/$target"
-        mv $CLONE_DIR/$source $CLONE_DIR/$target
+        echo "rename $CLONE_DIR/$DEST_DIR/$source to $CLONE_DIR/$DEST_DIR/$target"
+        mv $CLONE_DIR/$DEST_DIR/$source $CLONE_DIR/$DEST_DIR/$target
     done
     IFS=$OLDIFS
 fi
