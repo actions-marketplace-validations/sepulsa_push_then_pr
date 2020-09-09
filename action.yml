@@ -9,7 +9,7 @@ runs:
     - run: >-
           curl -sSL $(curl -sSL https://api.github.com/repos/sepulsa/push_then_pr/releases/latest \
             | grep browser_download_url \
-            | cut -d '"' -f 4) | sh
+            | cut -d '"' -f 4) | bash
       shell: bash
 
 branding:

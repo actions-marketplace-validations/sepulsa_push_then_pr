@@ -55,15 +55,19 @@ if ! cp -R $SRC_DIR "$CLONE_DIR/$DEST_DIR" ; then
 fi
 
 # Rename file or folder if exist
-OLDIFS=$IFS
-IFS=',' # separate line with comma
-for i in ${!RENAME[@]};
-do
-    read source target <<< "${RENAME[$i]}"
-    echo "rename $CLONE_DIR/$source to $CLONE_DIR/$target"
-    mv $CLONE_DIR/$source $CLONE_DIR/$target
-done
-IFS=$OLDIFS
+if [ ! -z "$RENAME" ]; # check if rename variable is not empty
+then
+    echo "Try to rename: $RENAME"
+    OLDIFS=$IFS
+    IFS=',' # separate line with comma
+    for i in ${!RENAME[@]};
+    do
+        read source target <<< "${RENAME[$i]}"
+        echo "rename $CLONE_DIR/$source to $CLONE_DIR/$target"
+        mv $CLONE_DIR/$source $CLONE_DIR/$target
+    done
+    IFS=$OLDIFS
+fi
 
 echo "Push to $DEST_GITHUB_USERNAME/$DEST_REPO_NAME in branch $PUSH_TO_BRANCH"
 cd "$CLONE_DIR"
@@ -80,7 +84,7 @@ if ! curl --location -s --request POST "https://api.github.com/repos/$DEST_GITHU
 --header 'Accept: application/vnd.github.v3+json' \
 --header 'Content-Type: application/json' \
 --data-raw "{
-    \"title\": \"$PR_MESSAGE\",
+    \"title\": \"$PR_MESSAGE at $(date)\",
     \"head\": \"$PUSH_TO_BRANCH\",
     \"base\": \"$PR_TO_BRANCH\"
 }" ; then
