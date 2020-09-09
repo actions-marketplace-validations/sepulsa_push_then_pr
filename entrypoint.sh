@@ -57,12 +57,16 @@ fi
 # Rename file or folder if exist
 if [ ! -z "$RENAME" ]; # check if rename variable is not empty
 then
-    echo "Try to rename: $RENAME"
+    # Convert string to array
     OLDIFS=$IFS
+    IFS=' ' read -r -a RENAME_ARRAY <<< "$RENAME"
+    
+    # Do rename
+    echo "Try to rename ${#RENAME_ARRAY[@]} file(s) or folder(s)"
     IFS=',' # separate line with comma
-    for i in ${!RENAME[@]};
+    for i in ${!RENAME_ARRAY[@]};
     do
-        read source target <<< "${RENAME[$i]}"
+        read source target <<< "${RENAME_ARRAY[$i]}"
         echo "rename $CLONE_DIR/$DEST_DIR/$source to $CLONE_DIR/$DEST_DIR/$target"
         mv $CLONE_DIR/$DEST_DIR/$source $CLONE_DIR/$DEST_DIR/$target
     done
