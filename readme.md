@@ -18,7 +18,7 @@ on:
     types: [published]
   
 jobs:
-  build:
+  processing_docs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
