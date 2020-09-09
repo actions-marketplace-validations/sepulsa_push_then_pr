@@ -42,7 +42,7 @@ jobs:
                     readme.adoc,docs.adoc
                     docs,docs
             # Add your custom Pull Request message
-            PR_MESSAGE: 'New release from system_name at $(date)'
+            PR_MESSAGE: 'New release from system_name'
 ```
 
 * Create a release and see your action!
